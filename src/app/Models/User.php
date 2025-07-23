@@ -41,4 +41,34 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    //リレーション：ユーザーは1つの住所を持つ
+    public function address()
+    {
+        return $this->hasOne(Address::class);
+    }
+
+    //リレーション：ユーザーが出品した商品
+    public function items()
+    {
+        return $this->hasMany(Item::class);
+    }
+
+    //リレーション：ユーザーが購入した商品
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
+    }
+
+    //リレーション：ユーザーがお気に入りした商品
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    //リレーション：ユーザーがコメントした内容
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }
