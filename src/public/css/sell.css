@@ -1,0 +1,107 @@
+.sell-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    color: #333;
+}
+
+.sell-form h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.sell-form h2 {
+    margin-top: 40px;
+    margin-bottom: 10px;
+    font-size: 30px;
+    color: #5F5F5F;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+}
+
+.sell-form label {
+    display: block;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+.sell-form input[type="file"] {
+    display: block;
+    width: 100%;
+    padding: 40px;
+    border: 1px dashed #ccc;
+    text-align: center;
+    margin-bottom: 20px;
+    cursor: pointer;
+    background-color: #fafafa;
+}
+
+.sell-form input[type="text"],
+.sell-form input[type="number"],
+.sell-form select,
+.sell-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+.sell-form textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.sell-form button {
+    width: 100%;
+    margin-top: 30px;
+    padding: 12px 0;
+    background-color: #ff5e5e;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.sell-form button:hover {
+    background-color: #ff3b3b;
+}
+
+.sell-form .category-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.sell-form .category-group label {
+    display: inline-block;
+    background-color: #fff;
+    color: #ff5e5e;
+    border: 1px solid #ff5e5e;
+    border-radius: 30px;
+    padding: 5px 15px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.sell-form .category-group input[type="checkbox"] {
+    display: none;
+}
+
+.sell-form .category-group input[type="checkbox"]:checked+span {
+    background-color: #FF5555;
+    color: #fff;
+}
+
+.sell-form .price-field {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}

@@ -16,7 +16,7 @@ class Category extends Model
     //リレーション：カテゴリは複数の商品に紐づく（多対多）
     public function items()
     {
-        return $this->belongsToMany(Item::class, 'category_item');
+        return $this->belongsToMany(Item::class);
     }
 
 }

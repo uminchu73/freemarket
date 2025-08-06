@@ -23,28 +23,38 @@
 </head>
 
 <body>
-    <!-- ヘッダー -->
+    {{-- ヘッダー --}}
     <header class="header">
         <div class="header__inner">
                 <a class="header__logo" href="/">
                     <img src="{{ asset('images/logo.svg') }}" alt="COACHTECH">
-
                 </a>
                 <nav>
                     <ul class="header-nav">
                         @if (Auth::check())
-                        <li class="header-nav__item">
-                            <form class="form" action="/logout" method="post">
-                                @csrf
-                                <button class="logout_btn">ログアウト</button>
-                            </form>
-                        </li>
-                        <li class="header-nav__item">
-                            <a class="header-nav__link" href="/mypage">マイページ</a>
-                        </li>
-                        <li class="header-nav__item">
-                        <a href="/items/create" class="exhibit_btn">出品</a>
-                        </li>
+                            {{-- 検索欄 --}}
+                            <li class="header-nav__item">
+                                <form action="/search" class="search-form" method="get">
+                                    <div class="search-item">
+                                        <input class="search-item__input" type="text" name="keyword" placeholder="何をお探しですか？" value="{{ old('keyword') }}" />
+                                    </div>
+                                </form>
+                            </li>
+                            {{-- ログアウトボタン --}}
+                            <li class="header-nav__item">
+                                <form class="form" action="/logout" method="post">
+                                    @csrf
+                                    <button class="logout_btn">ログアウト</button>
+                                </form>
+                            </li>
+                            {{-- マイページボタン --}}
+                            <li class="header-nav__item">
+                                <a class="mypage_link" href="/mypage">マイページ</a>
+                            </li>
+                            {{-- 出品ボタン --}}
+                            <li class="header-nav__item">
+                            <a href="/sell" class="exhibit_btn">出品</a>
+                            </li>
                         @endif
                     </ul>
                 </nav>

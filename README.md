@@ -57,6 +57,13 @@ php artisan migrate --seed
 テーブルを作成し、ダミーデータを投入します。
 
 
+##### 初期ログイン情報
+
+メール：user@example.com
+
+パスワード：password123
+
+
 ## 使用技術（実行環境）
 
 フレームワーク：Laravel Framework 8.83.29

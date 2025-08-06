@@ -9,13 +9,28 @@ class Item extends Model
 {
     use HasFactory;
 
+    public const CONDITION = [
+        1 => '良好',
+        2 => '目立った傷や汚れなし',
+        3 => 'やや傷や汚れあり',
+        4 => '状態が悪い',
+    ];
+
+    public const STATUS = [
+        0 => '販売中',
+        1 => '売り切れ',
+    ];
+
+
     protected $fillable = [
         'user_id',
+        'category_id',
         'title',
         'description',
         'price',
         'condition',
         'status',
+        'img_path'
     ];
 
     //リレーション：商品は1人のユーザー（出品者）に属する
@@ -27,7 +42,7 @@ class Item extends Model
     //レーション：商品は複数のカテゴリに属する（多対多）
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'category_item');
+        return $this->belongsToMany(Category::class);
     }
 
     //リレーション：商品は複数の画像を持つ
@@ -52,6 +67,15 @@ class Item extends Model
     public function purchase()
     {
         return $this->hasOne(Purchase::class);
+    }
+
+
+    //キーワード検索
+    public function scopeKeywordSearch($query, $keyword)
+    {
+        if (!empty($keyword)) {
+            $query->where('title', 'like', '%' . $keyword . '%');
+        }
     }
 
 }

@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
+use App\Actions\Fortify\AuthenticateUser;
+
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -28,16 +30,26 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        //Fortifyにユーザー登録処理を任せる
         Fortify::createUsersUsing(CreateNewUser::class);
+
+        //会員登録フォームの表示
         Fortify::registerView(function () {
             return view('auth.register');
         });
+
+        //ログインフォームの表示
         Fortify::loginView(function () {
             return view('auth.login');
         });
+
+        //ログイン試行制限：1分に10回まで
         RateLimiter::for('login', function (Request $request) {
             $email = (string) $request->email;
             return Limit::perMinute(10)->by($email . $request->ip());
         });
+
+        //バリデーション呼び出し
+        Fortify::authenticateUsing(app(AuthenticateUser::class));
     }
 }

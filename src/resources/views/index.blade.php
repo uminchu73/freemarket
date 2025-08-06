@@ -8,17 +8,17 @@
 @section('content')
 
 <div class="menu">
-    <a href="#" class="favorite">おすすめ</a>
-    <a href="#" class="mylist">マイリスト</a>
+    <a href="" class="favorite">おすすめ</a>
+    <a href="" class="mylist">マイリスト</a>
 </div>
 
 <div class="item-list">
     @foreach($items as $item)
     <div class="item-card">
         <div class="item-image">
-            <img src="{{ $item->img_url }}" alt="{{ $item->title }}" />
+            <img src="{{ \Illuminate\Support\Str::startsWith($item->img_url, ['http://', 'https://']) ? $item->img_url : asset('storage/' . $item->img_url) }}" alt="商品画像">
         </div>
-        <div class="item-name">{{ $item->title }}</div>
+        <div class="item-title">{{ $item->title }}</div>
     </div>
 
     @endforeach

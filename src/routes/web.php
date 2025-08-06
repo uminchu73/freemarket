@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,9 +14,12 @@ use App\Http\Controllers\ItemController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', [ItemController::class,'index']);
-
 
 Route::middleware('auth')->group(function () {
-    Route::get('/mypage/profile', [ItemController::class,'index']);
+    Route::get('/', [ItemController::class,'index'])->name('home');
 });
+
+Route::get('/search', [ItemController::class, 'search']);
+Route::get('/sell', [ItemController::class, 'create']);
+Route::post('/sell', [ItemController::class, 'store']);
+
