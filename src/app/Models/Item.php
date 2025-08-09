@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Item extends Model
 {
@@ -24,13 +25,13 @@ class Item extends Model
 
     protected $fillable = [
         'user_id',
-        'category_id',
         'title',
+        'brand',
         'description',
         'price',
         'condition',
         'status',
-        'img_path'
+        'img_url'
     ];
 
     //リレーション：商品は1人のユーザー（出品者）に属する
@@ -70,12 +71,31 @@ class Item extends Model
     }
 
 
-    //キーワード検索
+    /**
+     * キーワード検索
+     */
     public function scopeKeywordSearch($query, $keyword)
     {
         if (!empty($keyword)) {
             $query->where('title', 'like', '%' . $keyword . '%');
         }
+    }
+
+    /**
+     * 新しい商品を作成して保存、カテゴリもattachするメソッド
+     */
+    public static function createWithCategories(array $data, array $categoryIds)
+    {
+        $data['user_id'] = Auth::id();
+        $data['status'] = 0;
+
+        $item = self::create($data);
+
+        if (!empty($categoryIds)) {
+            $item->categories()->attach($categoryIds);
+        }
+
+        return $item;
     }
 
 }

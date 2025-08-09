@@ -12,14 +12,26 @@ use App\Http\Requests\ExhibitionRequest;
 
 class ItemController extends Controller
 {
-    //一覧表示
+    /**
+     * 一覧表示
+     */
     public function index()
     {
         $items = Item::all();//全件取得
         return view('index', compact('items'));
     }
 
-    //検索処理
+    /**
+     * 詳細表示
+     */
+    public function show(Item $item)
+    {
+        return view('detail', compact('item'));
+    }
+
+    /**
+     * 検索処理
+     */
     public function search(Request $request)
     {
         $keyword = $request->input('keyword');
@@ -29,10 +41,13 @@ class ItemController extends Controller
         return view('index', compact('items'));
     }
 
-    //商品出品
+    /**
+     * 商品出品処理
+     */
     public function create()
     {
-        $categories = Category::all(); // カテゴリを全取得
+        // カテゴリを全取得
+        $categories = Category::all();
 
         return view('sell', compact('categories'));
     }
@@ -41,20 +56,10 @@ class ItemController extends Controller
     {
         $imagePath = $request->file('image')->store('images', 'public');
 
-        $item = new Item();
-        $item->title = $request->title;
-        $item->description = $request->description;
-        $item->img_url = $imagePath;
-        $item->brand = $request->brand;
-        $item->condition = $request->condition;
-        $item->price = $request->price;
-        $item->user_id = Auth::id();
-        $item->status = 0;
-        $item->save();
+        $data = $request->only(['title', 'description', 'brand', 'condition', 'price']);
+        $data['img_url'] = $imagePath;
 
-        //中間テーブルに保存
-        $item->categories()->attach($request->category_ids);
-
+        Item::createWithCategories($data, $request->category_ids);
 
         return redirect('/')->with('success', '商品を出品しました！');
     }

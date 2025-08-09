@@ -52,7 +52,7 @@
 
             <!-- 販売価格 -->
             <label>販売価格</label>
-            <input type="number" name="price" required>
+            <input type="text" name="price" inputmode="numeric" pattern="[0-9]*" required placeholder="¥">
 
             <button type="submit">出品する</button>
         </form>

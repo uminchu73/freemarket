@@ -23,3 +23,4 @@ Route::get('/search', [ItemController::class, 'search']);
 Route::get('/sell', [ItemController::class, 'create']);
 Route::post('/sell', [ItemController::class, 'store']);
 
+Route::get('/item/{item}', [ItemController::class, 'show'])->name('items.show');
