@@ -34,6 +34,19 @@ class Item extends Model
         'img_url'
     ];
 
+    // 商品状態のラベル
+    public function getConditionLabelAttribute()
+    {
+        return self::CONDITION[$this->condition] ?? '不明';
+    }
+
+    // ステータスのラベル
+    public function getStatusLabelAttribute()
+    {
+        return self::STATUS[$this->status] ?? '不明';
+    }
+
+
     //リレーション：商品は1人のユーザー（出品者）に属する
     public function user()
     {
@@ -57,6 +70,13 @@ class Item extends Model
     {
         return $this->hasMany(Favorite::class);
     }
+
+    // 商品は複数のユーザーにお気に入りされる
+    public function favoritedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'favorites')->withTimestamps();
+    }
+
 
     //リレーション：商品は複数のコメントを持つ
     public function comments()
@@ -82,7 +102,7 @@ class Item extends Model
     }
 
     /**
-     * 新しい商品を作成して保存、カテゴリもattachするメソッド
+     * 新しい商品を作成して保存、カテゴリもattachする
      */
     public static function createWithCategories(array $data, array $categoryIds)
     {
@@ -96,6 +116,15 @@ class Item extends Model
         }
 
         return $item;
+    }
+
+    public function scopeForTab($query, $tab)
+    {
+        if ($tab === 'mylist' && auth()->check()) {
+            return auth()->user()->favoriteItems()->getQuery();
+        }
+
+        return $query;
     }
 
 }

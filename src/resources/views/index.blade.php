@@ -8,8 +8,10 @@
 @section('content')
 
 <div class="menu">
-    <a href="" class="favorite">おすすめ</a>
-    <a href="" class="mylist">マイリスト</a>
+        <a href="{{ url('/?tab=all') }}" class="all {{ $tab === 'all' ? 'active' : '' }}">おすすめ</a>
+        <a href="{{ url('/?tab=mylist') }}" class="mylist {{ $tab === 'mylist' ? 'active' : '' }}">マイリスト</a>
+</div>
+
 </div>
 
 <div class="item-list">

@@ -63,8 +63,15 @@ class User extends Authenticatable
     //リレーション：ユーザーがお気に入りした商品
     public function favorites()
     {
-        return $this->hasMany(Favorite::class);
+        return $this->belongsToMany(Item::class, 'favorites')->withTimestamps();
     }
+
+    // ユーザーは複数の商品をお気に入りにできる
+    public function favoriteItems()
+    {
+        return $this->belongsToMany(Item::class, 'favorites')->withTimestamps();
+    }
+
 
     //リレーション：ユーザーがコメントした内容
     public function comments()

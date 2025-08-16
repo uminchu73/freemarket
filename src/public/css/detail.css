@@ -45,22 +45,54 @@
     gap: 20px;
     margin-bottom: 1px;
     font-size: 18px;
+    align-items: center;
 }
-.icon {
+
+.response .favorites-count .icon,
+.response .comments-count .icon {
     width: 40px;
     height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.favorite-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.response .count {
+    color: #000;
+    font-weight: 700;
+}
+
+.response .count.favorited {
+    color: #FF5555;
+}
+
+.response .favorites-count .icon img,
+.response .comments-count .icon img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    object-fit: contain;
 }
 
 .purchase-btn {
     display: inline-block;
+    text-align: center;
     background-color: #FF5555;
     color: white;
-    border: none;
+    text-decoration: none;
     padding: 12px 0;
     width: 100%;
     font-weight: 700;
     cursor: pointer;
-    margin-bottom: 2em;
+    margin-bottom: 2px;
     border-radius: 4px;
 }
 
@@ -69,34 +101,51 @@
 .item-info-detail h3,
 .comments-section h3 {
     font-weight: 700;
-    margin-bottom: 0.8em;
+    margin-bottom: 1px;
+    font-size: 36px;
 }
 
 .item-description p,
-.item-info-detail dl,
 .comments-section {
-    margin-bottom: 1.5em;
+    display: block;
+    margin: 0;
 }
 
 .category-label {
     display: inline-block;
     background-color: #ddd;
     color: #333;
-    border-radius: 12px;
+    border-radius: 30px;
     padding: 4px 10px;
-    font-size: 0.8rem;
+    font-size: 20px;
     margin-right: 8px;
 }
 
+.item-info-detail dl {
+    display: block; /* 項目ごとに縦に積む */
+    gap: 10px;
+    font-size: 24px;
+}
+
 .item-info-detail dt {
+    width: 120px;
     font-weight: 700;
     display: inline-block;
-    width: 100px;
 }
 
 .item-info-detail dd {
+    margin-left: 10px;
     display: inline-block;
-    margin: 0 0 10px 0;
+}
+
+.item-info-detail dt+dd {
+    display: inline-block;
+}
+
+.item-info-detail dl>* {
+    display: block;
+    /* 各 dt+dd の組を縦に積む */
+    margin-bottom: 10px;
 }
 
 .comment {

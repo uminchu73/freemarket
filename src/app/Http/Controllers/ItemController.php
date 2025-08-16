@@ -15,10 +15,13 @@ class ItemController extends Controller
     /**
      * 一覧表示
      */
-    public function index()
+    public function index(Request $request)
     {
-        $items = Item::all();//全件取得
-        return view('index', compact('items'));
+        $tab = $request->query('tab', 'all');
+
+        $items = Item::forTab($tab)->paginate(10);
+
+        return view('index', compact('items', 'tab'));
     }
 
     /**
@@ -26,6 +29,14 @@ class ItemController extends Controller
      */
     public function show(Item $item)
     {
+        // 商品に紐づくお気に入りユーザーもロード
+        $item->load('favoritedByUsers', 'categories');
+
+        // ログインユーザーならお気に入りリレーションもロード
+        if (auth()->check()) {
+            auth()->user()->load('favoriteItems');
+        }
+
         return view('detail', compact('item'));
     }
 
