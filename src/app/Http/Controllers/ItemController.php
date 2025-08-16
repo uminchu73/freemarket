@@ -19,10 +19,17 @@ class ItemController extends Controller
     {
         $tab = $request->query('tab', 'all');
 
-        $items = Item::forTab($tab)->paginate(10);
+        if ($tab === 'mylist') {
+            // ログインユーザーのお気に入りだけ取得
+            $items = Auth::user()->favoriteItems()->get();
+        } else {
+            // 全商品
+            $items = Item::all();
+        }
 
         return view('index', compact('items', 'tab'));
     }
+
 
     /**
      * 詳細表示
@@ -30,14 +37,18 @@ class ItemController extends Controller
     public function show(Item $item)
     {
         // 商品に紐づくお気に入りユーザーもロード
-        $item->load('favoritedByUsers', 'categories');
+        $item->load('favoritedByUsers', 'categories','comments.user');
 
         // ログインユーザーならお気に入りリレーションもロード
         if (auth()->check()) {
             auth()->user()->load('favoriteItems');
         }
 
-        return view('detail', compact('item'));
+        // コメントもビューに渡す
+        $comments = $item->comments;
+
+
+        return view('detail', compact('item', 'comments'));
     }
 
     /**
@@ -49,7 +60,8 @@ class ItemController extends Controller
 
         $items = Item::keywordSearch($keyword)->get();
 
-        return view('index', compact('items'));
+        return view('index', compact('items'))->with('tab', 'all');
+
     }
 
     /**
@@ -65,13 +77,29 @@ class ItemController extends Controller
 
     public function store(ExhibitionRequest $request)
     {
-        $imagePath = $request->file('image')->store('images', 'public');
-
         $data = $request->only(['title', 'description', 'brand', 'condition', 'price']);
-        $data['img_url'] = $imagePath;
+        $data['img_url'] = $request->file('image')->store('images', 'public');
 
-        Item::createWithCategories($data, $request->category_ids);
+        Item::createWithCategories($data, $request->category_ids ?? []);
 
-        return redirect('/')->with('success', '商品を出品しました！');
+        return redirect('/?tab=all')->with('success', '商品を出品しました！');
     }
+
+    /**
+     * コメント保存処理
+     */
+    public function addComment(Request $request, Item $item)
+    {
+        $request->validate([
+            'content' => 'required|string|max:225',
+        ]);
+
+        $item->comments()->create([
+            'user_id' => auth()->id(),
+            'content' => $request->content,
+        ]);
+
+        return back();
+    }
+
 }

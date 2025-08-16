@@ -30,6 +30,8 @@ Route::get('/item/{item}', [ItemController::class, 'show'])->name('items.show');
 Route::middleware('auth')->group(function () {
     Route::post('/item/{item}/favorite', [FavoriteController::class, 'toggle'])->name('item.favorite');
 });
+Route::post('/item/{item}/comment', [ItemController::class, 'addComment'])->name('item.comment')->middleware('auth');
+
 
 
 Route::middleware('auth')->get('/purchase/{item}', [PurchaseController::class, 'show'])->name('purchase.show');

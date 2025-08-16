@@ -46,7 +46,7 @@
                         <img src="{{ asset('images/2eff6a259403a7440cf0d1765014bcdbe8540f70.png') }}" alt="💬">
                     </span>
                     <span class="count">
-                        {{ $item->comments_count ?? 0 }}
+                        {{ $item->comments->count() ?? 0 }}
                     </span>
                 </div>
             </div>
@@ -70,6 +70,29 @@
                     <dt>商品の状態</dt>
                 <dd>{{ $item->condition_label }}</dd>
                 </dl>
+            </div>
+            <div class="item-comments">
+                <h3>コメント ({{ $item->comments->count() }})</h3>
+                @foreach($item->comments as $comment)
+                    <div class="comment">
+                        <div class="comment-user-icon">👤</div>
+                        <div class="comment-content">
+                            <p class="username">{{ $comment->user->name }}</p>
+                            <p class="comment-text">{{ $comment->content }}</p>
+                        </div>
+                    </div>
+                @endforeach
+
+                @auth
+                <form action="{{ route('item.comment', $item->id) }}" method="POST" class="comment-form">
+                    @csrf
+                    <label for="comment">商品へのコメント</label>
+                    <textarea name="content" id="comment"  placeholder="コメントを入力してください"></textarea>
+                    <button type="submit">コメントを送信する</button>
+                </form>
+                @else
+                    <p>コメントを投稿するにはログインしてください。</p>
+                @endauth
             </div>
         </div>
     </div>

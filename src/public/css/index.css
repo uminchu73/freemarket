@@ -9,12 +9,14 @@
     padding: 10px 20px;
     font-weight: bold;
     text-decoration: none;
-    color: #888;
+    color: #5F5F5F;
 }
 
 .mylist {
-    color: red;
+    padding: 10px 20px;
+    font-weight: bold;
     text-decoration: none;
+    color: #FF0000;
 }
 
 .item-list {

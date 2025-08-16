@@ -118,13 +118,6 @@ class Item extends Model
         return $item;
     }
 
-    public function scopeForTab($query, $tab)
-    {
-        if ($tab === 'mylist' && auth()->check()) {
-            return auth()->user()->favoriteItems()->getQuery();
-        }
 
-        return $query;
-    }
 
 }
