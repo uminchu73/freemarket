@@ -31,31 +31,38 @@
                 </a>
                 <nav>
                     <ul class="header-nav">
-                        @if (Auth::check())
-                            {{-- 検索欄 --}}
-                            <li class="header-nav__item">
-                                <form action="/search" class="search-form" method="get">
-                                    <div class="search-item">
-                                        <input class="search-item__input" type="text" name="keyword" placeholder="何をお探しですか？" value="{{ old('keyword') }}" />
-                                    </div>
-                                </form>
-                            </li>
+                        {{-- 検索欄 --}}
+                        <li class="header-nav__item">
+                            <form action="/search" class="search-form" method="get">
+                                <div class="search-item">
+                                    <input class="search-item__input" type="text" name="keyword" placeholder="何をお探しですか？" value="{{ old('keyword') }}" />
+                                </div>
+                            </form>
+                        </li>
+                        {{-- ログイン状態に合わせてボタン切り替え --}}
+                        <li class="header-nav__item">
                             {{-- ログアウトボタン --}}
-                            <li class="header-nav__item">
+                            @auth
                                 <form class="form" action="/logout" method="post">
                                     @csrf
                                     <button class="logout_btn">ログアウト</button>
                                 </form>
-                            </li>
-                            {{-- マイページボタン --}}
-                            <li class="header-nav__item">
-                                <a class="mypage_link" href="/mypage">マイページ</a>
-                            </li>
-                            {{-- 出品ボタン --}}
-                            <li class="header-nav__item">
+                            @endauth
+
+                            {{-- ログインボタン --}}
+                            @guest
+                                <a class="login_btn" href="{{ route('login') }}">ログイン</a>
+                            @endguest
+
+                        </li>
+                        {{-- マイページボタン --}}
+                        <li class="header-nav__item">
+                            <a class="mypage_link" href="/mypage">マイページ</a>
+                        </li>
+                        {{-- 出品ボタン --}}
+                        <li class="header-nav__item">
                             <a href="/sell" class="exhibit_btn">出品</a>
-                            </li>
-                        @endif
+                        </li>
                     </ul>
                 </nav>
             </div>

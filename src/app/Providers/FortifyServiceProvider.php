@@ -13,6 +13,9 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
 use App\Actions\Fortify\AuthenticateUser;
+use App\Http\Requests\LoginRequest;
+use Illuminate\Support\Facades\Auth;
+
 
 
 class FortifyServiceProvider extends ServiceProvider
@@ -49,7 +52,6 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(10)->by($email . $request->ip());
         });
 
-        //バリデーション呼び出し
-        Fortify::authenticateUsing(app(AuthenticateUser::class));
+
     }
 }

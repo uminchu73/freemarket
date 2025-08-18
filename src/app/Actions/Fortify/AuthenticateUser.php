@@ -11,19 +11,20 @@ use Illuminate\Validation\ValidationException;
 class AuthenticateUser
 {
     public function __invoke(Request $request)
-{
-    // AppのLoginRequestのバリデーションルールをここで手動適用
-    $request->validate((new LoginRequest)->rules(), (new LoginRequest)->messages());
+    {
+        // AppのLoginRequestのバリデーションルールをここで手動適用
+        $request->validate(LoginRequest::$rules, LoginRequest::$messages);
 
-    // 認証処理
-    $credentials = $request->only('email', 'password');
+        $credentials = $request->only('email', 'password');
 
-    if (!Auth::attempt($credentials, $request->boolean('remember'))) {
-        return null;
+        if (!Auth::attempt($credentials, $request->boolean('remember'))) {
+            return back()->withErrors([
+                'email' => 'メールアドレスまたはパスワードが正しくないです。',
+            ]);
+        }
+
+        $request->session()->regenerate();
+
+        return Auth::user();
     }
-
-    $request->session()->regenerate();
-
-    return Auth::user();
-}
 }
