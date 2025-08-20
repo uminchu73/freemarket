@@ -13,7 +13,9 @@ class Category extends Model
         'content',
     ];
 
-    //リレーション：カテゴリは複数の商品に紐づく（多対多）
+    /**
+     * リレーション：カテゴリは複数の商品に紐づく（多対多）
+     */
     public function items()
     {
         return $this->belongsToMany(Item::class);

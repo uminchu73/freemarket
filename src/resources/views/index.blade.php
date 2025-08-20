@@ -18,8 +18,13 @@
     @foreach($items as $item)
     <div class="item-card">
         <a href="{{ route('items.show', $item->id) }}">
-            <div class="item-image">
-                <img src="{{ \Illuminate\Support\Str::startsWith($item->img_url, ['http://', 'https://']) ? $item->img_url : asset('storage/' . $item->img_url) }}" alt="商品画像">
+            <div class="item-image-wrapper">
+                <div class="item-image">
+                    <img src="{{ \Illuminate\Support\Str::startsWith($item->img_url, ['http://', 'https://']) ? $item->img_url : asset('storage/' . $item->img_url) }}" alt="商品画像">
+                    @if ($item->status == 1)
+                        <span class="sold-label">Sold</span>
+                    @endif
+                </div>
             </div>
             <div class="item-title">{{ $item->title }}</div>
         </a>

@@ -51,7 +51,11 @@
                 </div>
             </div>
 
-            <a href="{{ route('purchase.show', $item) }}" class="purchase-btn">購入手続きへ</a>
+            @if($item->status == 0)
+                <a href="{{ route('purchase.show', $item) }}" class="purchase-button">購入手続きへ</a>
+                @else
+                <button class="purchase-button" disabled>Sold</button>
+            @endif
 
 
             <div class="item-description">

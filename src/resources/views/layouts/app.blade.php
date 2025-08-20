@@ -45,13 +45,13 @@
                             @auth
                                 <form class="form" action="/logout" method="post">
                                     @csrf
-                                    <button class="logout_btn">ログアウト</button>
+                                    <button class="logout_button">ログアウト</button>
                                 </form>
                             @endauth
 
                             {{-- ログインボタン --}}
                             @guest
-                                <a class="login_btn" href="{{ route('login') }}">ログイン</a>
+                                <a class="login_button" href="{{ route('login') }}">ログイン</a>
                             @endguest
 
                         </li>
@@ -61,7 +61,7 @@
                         </li>
                         {{-- 出品ボタン --}}
                         <li class="header-nav__item">
-                            <a href="/sell" class="exhibit_btn">出品</a>
+                            <a href="/sell" class="exhibit_button">出品</a>
                         </li>
                     </ul>
                 </nav>
@@ -72,6 +72,8 @@
     <!-- ページごとの中身を表示 -->
     <main>
         @yield('content')
+
+        @yield('scripts')
 
     </main>
 </body>

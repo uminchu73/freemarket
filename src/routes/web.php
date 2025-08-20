@@ -6,6 +6,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\AddressController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,7 +57,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/sell', [ItemController::class, 'store']);
 
     /**
-     * お気に入り */
+     * お気に入り
+     */
     Route::get('/my-favorites', [FavoriteController::class, 'index'])->name('mylist');
     Route::post('/item/{item}/favorite', [FavoriteController::class, 'toggle'])->name('item.favorite');
 
@@ -69,4 +71,14 @@ Route::middleware('auth')->group(function () {
      * 購入
      */
     Route::get('/purchase/{item}', [PurchaseController::class, 'show'])->name('purchase.show');
+    Route::post('/purchase/{item}', [PurchaseController::class, 'store'])->name('purchase.store');
+
+
+
+    /**
+     * 住所変更
+     */
+    Route::get('/purchase/address/{item}', [AddressController::class, 'edit'])->name('purchase.address.edit');
+    Route::put('/purchase/address/{item}', [AddressController::class, 'update'])->name('purchase.address.update');
+
 });

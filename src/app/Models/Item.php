@@ -34,57 +34,75 @@ class Item extends Model
         'img_url'
     ];
 
-    // 商品状態のラベル
+    /**
+     * 商品状態のラベル
+     */
     public function getConditionLabelAttribute()
     {
         return self::CONDITION[$this->condition] ?? '不明';
     }
 
-    // ステータスのラベル
+    /**
+     * ステータスのラベル
+     */
     public function getStatusLabelAttribute()
     {
         return self::STATUS[$this->status] ?? '不明';
     }
 
 
-    //リレーション：商品は1人のユーザー（出品者）に属する
+    /**
+     * リレーション：商品は1人のユーザー（出品者）に属する
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    //レーション：商品は複数のカテゴリに属する（多対多）
+    /**
+     * リレーション：商品は複数のカテゴリに属する（多対多）
+     */
     public function categories()
     {
         return $this->belongsToMany(Category::class);
     }
 
-    //リレーション：商品は複数の画像を持つ
+    /**
+     * リレーション：商品は複数の画像を持つ
+     */
     public function images()
     {
         return $this->hasMany(Image::class);
     }
 
-    //リレーション：商品は複数のお気に入りに登録される可能性がある
+    /**
+     * リレーション：商品は複数のお気に入り(Favoriteレコード)を持つ
+     */
     public function favorites()
     {
         return $this->hasMany(Favorite::class);
     }
 
-    // 商品は複数のユーザーにお気に入りされる
+    /**
+     * リレーション：商品は複数のユーザーにお気に入りされる
+     */
     public function favoritedByUsers()
     {
         return $this->belongsToMany(User::class, 'favorites')->withTimestamps();
     }
 
 
-    //リレーション：商品は複数のコメントを持つ
+    /**
+     * リレーション：商品は複数のコメントを持つ
+     */
     public function comments()
     {
         return $this->hasMany(Comment::class);
     }
 
-    //リレーション：商品は1つの購入履歴を持つことがある（売れた場合）
+    /**
+     * リレーション：商品は1つの購入履歴を持つことがある（売れた場合）
+     */
     public function purchase()
     {
         return $this->hasOne(Purchase::class);
@@ -118,6 +136,24 @@ class Item extends Model
         return $item;
     }
 
+    /**
+     * 購入処理
+     */
+    public function purchaseBy(\App\Models\User $user, int $paymentMethod)
+    {
+        $purchase = $user->purchases()->create([
+        'item_id' => $this->id,
+        'address_id' => $user->address->id,
+        'payment_method' => $paymentMethod,
+        'purchased_at' => now(),
+    ]);
+
+        // ステータスを「売り切れ(=1)」に更新
+        $this->update(['status' => 1]);
+
+        return $purchase;
+
+    }
 
 
 }

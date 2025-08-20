@@ -82,7 +82,7 @@
     object-fit: contain;
 }
 
-.purchase-btn {
+.purchase-button {
     display: inline-block;
     text-align: center;
     background-color: #FF5555;
@@ -179,7 +179,7 @@
 
 .username {
     font-weight: 700;
-    font-size: 30px;
+    font-size: 20px;
 
 }
 

@@ -59,8 +59,8 @@
     font-size: 20px;
 }
 
-.logout_btn,
-.login_btn {
+.logout_button,
+.login_button {
     border: none;
     background: transparent;
     text-decoration: none;
@@ -69,7 +69,7 @@
     cursor: pointer;
 }
 
-.exhibit_btn {
+.exhibit_button {
     border: none;
     background: #fff;
     color: #000;

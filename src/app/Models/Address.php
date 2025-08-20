@@ -17,13 +17,17 @@ class Address extends Model
         'avatar',
     ];
 
-    //リレーション：住所は1人のユーザーに属する
+    /**
+     * リレーション：住所は1人のユーザーに属する
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    //リレーション：住所は複数の購入履歴に紐づくことがある
+    /**
+     * リレーション：住所は複数の購入履歴に紐づくことがある
+     */
     public function purchases()
     {
         return $this->hasMany(Purchase::class);

@@ -14,13 +14,17 @@ class Favorite extends Model
         'item_id',
     ];
 
-    //リレーション：お気に入りは1人のユーザーに属する
+    /**
+     * リレーション：お気に入りは1人のユーザーに属する
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    //リレーション：お気に入りは1つの商品に属する
+    /**
+     * リレーション：お気に入りは1つの商品に属する
+     */
     public function item()
     {
         return $this->belongsTo(Item::class);
