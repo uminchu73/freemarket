@@ -78,11 +78,17 @@
             <div class="item-comments">
                 <h3>コメント ({{ $item->comments->count() }})</h3>
                 @foreach($item->comments as $comment)
-                    <div class="comment">
-                        <div class="comment-user-icon">👤</div>
-                        <div class="comment-content">
-                            <p class="username">{{ $comment->user->name }}</p>
-                            <p class="comment-text">{{ $comment->content }}</p>
+                    <div class="comment-wrapper">
+                        <div class="comment-header">
+                            <img class="comment-profile-img"
+                                src="{{ $comment->user->profile_img
+                                        ? asset('storage/' . $comment->user->profile_img)
+                                        : asset('images/default-icon.png') }}"
+                                alt="{{ $comment->user->name }}">
+                            <span class="comment-username">{{ $comment->user->name }}</span>
+                        </div>
+                        <div class="comment-body">
+                            {{ $comment->content }}
                         </div>
                     </div>
                 @endforeach

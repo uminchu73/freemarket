@@ -34,7 +34,12 @@
             <div class="address">
                 <h3>配送先</h3>
                 <p>〒 {{ $user->address ? $user->address->postal_code : 'XXX-YYYY' }}</p>
-                <p>{{ $user->address ? $user->address->address : 'ここには住所と建物が入ります' }}</p>
+                <p>
+                    {{ $user->address ? $user->address->address : 'ここには住所が入ります' }}
+                    @if($user->address && $user->address->building)
+                        {{ $user->address->building }}
+                    @endif
+                </p>
                 <a href="{{ route('purchase.address.edit', ['item' => $item->id]) }}">変更する</a>
             </div>
         </div>

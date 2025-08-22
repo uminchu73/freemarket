@@ -47,7 +47,9 @@ Route::middleware('auth')->group(function () {
     /**
      * プロフィール設定
      */
-    Route::get('/mypage/edit', [UserController::class, 'edit'])->name('profile.edit');
+    Route::get('/mypage', [UserController::class, 'show'])->name('profile.show');
+    Route::patch('/mypage', [UserController::class, 'update'])->name('profile.update');
+    Route::get('/mypage/profile', [UserController::class, 'edit'])->name('profile.edit');
 
 
     /**

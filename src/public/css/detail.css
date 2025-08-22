@@ -10,10 +10,11 @@
     height: 600px;
     object-fit: cover;
     background-color: #ccc;
+    border-radius: 8px;
 }
 
 .item-info {
-    max-width: 1230px;
+    max-width: 600px;
 }
 
 .title {
@@ -152,43 +153,44 @@
     margin-bottom: 10px;
 }
 
-.comment {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-    align-items: flex-start;
+.comment-wrapper {
+    margin-bottom: 20px;
 }
 
-.comment-user-icon {
+.comment-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.comment-profile-img {
     width: 40px;
     height: 40px;
-    background-color: #ccc;
     border-radius: 50%;
-    text-align: center;
-    line-height: 40px;
-    font-size: 30px;
-    flex-shrink: 0;
+    object-fit: cover;
 }
 
-.comment-content {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-
-}
-
-.username {
+.comment-username {
     font-weight: 700;
     font-size: 20px;
 
 }
 
-.comment-text {
+.comment-body {
+    margin-left: 50px;
     background-color: #E5E5E5;
     border-radius: 8px;
     padding: 20px;
     font-size: 20px;
     color: #333;
+}
+
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 15px;
 }
 
 .comment-form label {
@@ -200,11 +202,10 @@
 
 .comment-form textarea {
     width: 100%;
-    resize: vertical;
-    padding: 10px;
-    border: 1px solid #5F5F5F;
-    border-radius: 4px;
-    margin-bottom: 10px;
+    min-height: 60px;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
 
 .comment-form button {

@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->rememberToken();//自動ログイン用
+            $table->string('profile_img')->nullable();
             $table->timestamps();
         });
     }

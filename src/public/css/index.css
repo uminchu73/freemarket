@@ -5,18 +5,18 @@
     margin-top: 20px;
 }
 
-.all {
+.all,.mylist {
     padding: 10px 20px;
     font-weight: bold;
     text-decoration: none;
     color: #5F5F5F;
 }
 
-.mylist {
-    padding: 10px 20px;
+
+.all:hover,
+.mylist:hover {
+    color: #ff3b3b;
     font-weight: bold;
-    text-decoration: none;
-    color: #FF0000;
 }
 
 .item-list {
