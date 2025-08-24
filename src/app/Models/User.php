@@ -44,7 +44,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * リレーション：ユーザーは1つの住所を持つ
+     * ユーザーは1つの住所を持つ
      */
     public function address()
     {
@@ -52,7 +52,7 @@ class User extends Authenticatable
     }
 
     /**
-     * リレーション：ユーザーが出品した商品
+     * ユーザーが出品した商品
      */
     public function items()
     {
@@ -60,19 +60,11 @@ class User extends Authenticatable
     }
 
     /**
-     * リレーション：ユーザーが購入した商品
+     * ユーザーが購入した商品
      */
     public function purchases()
     {
         return $this->hasMany(Purchase::class);
-    }
-
-    /**
-     * リレーション：ユーザーがお気に入りした商品
-     */
-    public function favorites()
-    {
-        return $this->belongsToMany(Item::class, 'favorites')->withTimestamps();
     }
 
     /**
@@ -83,12 +75,19 @@ class User extends Authenticatable
         return $this->belongsToMany(Item::class, 'favorites')->withTimestamps();
     }
 
-
     /**
-     * リレーション：ユーザーがコメントした内容
+     * ユーザーがコメントした内容
      */
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    /**
+     * マイリスト取得
+     */
+    public function mylist()
+    {
+        return $this->favoriteItems()->get();
     }
 }

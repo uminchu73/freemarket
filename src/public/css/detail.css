@@ -208,6 +208,11 @@
     border: 1px solid #ccc;
 }
 
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
 .comment-form button {
     background-color: #FF5555;
     color: white;

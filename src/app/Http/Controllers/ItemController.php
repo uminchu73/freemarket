@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
 use App\Models\Category;
 use App\Http\Requests\ExhibitionRequest;
+use App\Http\Requests\CommentRequest;
 
 
 class ItemController extends Controller
@@ -19,17 +20,18 @@ class ItemController extends Controller
     {
         $tab = $request->query('tab', 'all');
 
-        if ($tab === 'mylist') {
-            // ログインユーザーのお気に入りだけ取得
-            $items = Auth::user()->favoriteItems()->get();
-        } else {
-            // 全商品
-            $items = Item::all();
+        $items = ($tab === 'mylist')
+            ? (Auth::check() ? Auth::user()->mylist() : redirect()->route('login'))
+            : Item::recommended(Auth::id());
+
+        // redirect が返ってきたらそのまま返す
+        if ($items instanceof \Illuminate\Http\RedirectResponse) {
+            return $items;
         }
+
 
         return view('index', compact('items', 'tab'));
     }
-
 
     /**
      * 詳細表示
@@ -88,15 +90,11 @@ class ItemController extends Controller
     /**
      * コメント保存処理
      */
-    public function addComment(Request $request, Item $item)
+    public function addComment(CommentRequest $request, Item $item)
     {
-        $request->validate([
-            'content' => 'required|string|max:225',
-        ]);
-
         $item->comments()->create([
-            'user_id' => auth()->id(),
-            'content' => $request->content,
+        'user_id' => auth()->id(),
+        'comment' => $request->comment,
         ]);
 
         return back();

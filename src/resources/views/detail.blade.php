@@ -88,7 +88,7 @@
                             <span class="comment-username">{{ $comment->user->name }}</span>
                         </div>
                         <div class="comment-body">
-                            {{ $comment->content }}
+                            {{ $comment->comment }}
                         </div>
                     </div>
                 @endforeach
@@ -97,7 +97,13 @@
                 <form action="{{ route('item.comment', $item->id) }}" method="POST" class="comment-form">
                     @csrf
                     <label for="comment">商品へのコメント</label>
-                    <textarea name="content" id="comment"  placeholder="コメントを入力してください"></textarea>
+                    <textarea name="comment" id="comment"  placeholder="コメントを入力してください"></textarea>
+                    {{-- エラー表示 --}}
+                    <div class="error">
+                        @error('comment')
+                            {{ $message }}
+                        @enderror
+                    </div>
                     <button type="submit">コメントを送信する</button>
                 </form>
                 @else

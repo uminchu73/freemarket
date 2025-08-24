@@ -22,8 +22,8 @@ class LoginRequest extends FormRequest
      * @return array
      */
     public static array $rules = [
-        'email'    => 'required|email',
-        'password' => 'required',
+        'email'    => ['required', 'email'],
+        'password' => ['required'],
     ];
 
     public static array $messages = [

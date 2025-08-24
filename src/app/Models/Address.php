@@ -14,7 +14,6 @@ class Address extends Model
         'postal_code',
         'address',
         'building',
-        'avatar',
     ];
 
     /**

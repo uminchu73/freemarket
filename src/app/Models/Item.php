@@ -68,14 +68,6 @@ class Item extends Model
     }
 
     /**
-     * リレーション：商品は複数の画像を持つ
-     */
-    public function images()
-    {
-        return $this->hasMany(Image::class);
-    }
-
-    /**
      * リレーション：商品は複数のお気に入り(Favoriteレコード)を持つ
      */
     public function favorites()
@@ -90,7 +82,6 @@ class Item extends Model
     {
         return $this->belongsToMany(User::class, 'favorites')->withTimestamps();
     }
-
 
     /**
      * リレーション：商品は複数のコメントを持つ
@@ -153,6 +144,24 @@ class Item extends Model
 
         return $purchase;
 
+    }
+
+    /**
+     * 全商品（自分の出品は除外）
+     */
+    public function scopeExcludeOwn($query, $userId = null)
+    {
+        return $userId
+            ? $query->where('user_id', '!=', $userId)
+            : $query;
+    }
+
+    /**
+     * おすすめ一覧
+     */
+    public static function recommended($userId = null)
+    {
+        return self::latest()->excludeOwn($userId)->get();
     }
 
 
