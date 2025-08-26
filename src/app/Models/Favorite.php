@@ -15,7 +15,7 @@ class Favorite extends Model
     ];
 
     /**
-     * リレーション：お気に入りは1人のユーザーに属する
+     * お気に入りは1人のユーザーに属する
      */
     public function user()
     {
@@ -23,7 +23,7 @@ class Favorite extends Model
     }
 
     /**
-     * リレーション：お気に入りは1つの商品に属する
+     * お気に入りは1つの商品に属する
      */
     public function item()
     {

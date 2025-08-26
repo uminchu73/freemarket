@@ -14,7 +14,7 @@ class Category extends Model
     ];
 
     /**
-     * リレーション：カテゴリは複数の商品に紐づく（多対多）
+     * カテゴリは複数の商品に紐づく（多対多）
      */
     public function items()
     {

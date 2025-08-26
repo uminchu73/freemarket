@@ -36,7 +36,7 @@ Route::post('/register', [RegisteredUserController::class, 'store']);
  * 未認証でも表示
  */
 Route::get('/', [ItemController::class,'index'])->name('home');
-Route::get('/search', [ItemController::class, 'search']);
+Route::get('/search', [ItemController::class, 'search'])->name('items.search');
 Route::get('/item/{item}', [ItemController::class, 'show'])->name('items.show');
 
 /**
@@ -55,8 +55,8 @@ Route::middleware('auth')->group(function () {
     /**
      * 出品
      */
-    Route::get('/sell', [ItemController::class, 'create']);
-    Route::post('/sell', [ItemController::class, 'store']);
+    Route::get('/sell', [ItemController::class, 'create'])->name('items.create');
+    Route::post('/sell', [ItemController::class, 'store'])->name('items.store');
 
     /**
      * お気に入り
@@ -74,7 +74,8 @@ Route::middleware('auth')->group(function () {
      */
     Route::get('/purchase/{item}', [PurchaseController::class, 'show'])->name('purchase.show');
     Route::post('/purchase/{item}', [PurchaseController::class, 'store'])->name('purchase.store');
-
+    Route::get('/purchase/{item}/success', [PurchaseController::class, 'success'])->name('purchase.success');
+    Route::get('/purchase/{item}/cancel', [PurchaseController::class, 'cancel'])->name('purchase.cancel');
 
 
     /**

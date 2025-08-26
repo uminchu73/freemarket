@@ -20,51 +20,58 @@ class ItemController extends Controller
     {
         $tab = $request->query('tab', 'all');
 
-        $items = ($tab === 'mylist')
-            ? (Auth::check() ? Auth::user()->mylist() : redirect()->route('login'))
-            : Item::recommended(Auth::id());
-
-        // redirect が返ってきたらそのまま返す
-        if ($items instanceof \Illuminate\Http\RedirectResponse) {
-            return $items;
+        if ($tab === 'mylist' && Auth::check()) {
+            $items = Auth::user()->mylist()->get();
+        } else {
+            $items = Item::recommended(Auth::id());
         }
-
 
         return view('index', compact('items', 'tab'));
     }
+
 
     /**
      * 詳細表示
      */
     public function show(Item $item)
     {
-        // 商品に紐づくお気に入りユーザーもロード
-        $item->load('favoritedByUsers', 'categories','comments.user');
+        // 商品に関連する情報をロード
+        $item->load('favoritedByUsers', 'categories', 'comments.user');
 
-        // ログインユーザーならお気に入りリレーションもロード
+        // ログインユーザーがいればお気に入りもロード
         if (auth()->check()) {
             auth()->user()->load('favoriteItems');
         }
 
-        // コメントもビューに渡す
-        $comments = $item->comments;
-
-
-        return view('detail', compact('item', 'comments'));
+        return view('detail', [
+            'item' => $item,
+            'comments' => $item->comments
+        ]);
     }
+
 
     /**
      * 検索処理
      */
     public function search(Request $request)
     {
+        $tab = $request->input('tab', 'all');
         $keyword = $request->input('keyword');
 
-        $items = Item::keywordSearch($keyword)->get();
+        if ($tab === 'mylist' && auth()->check()) {
+            $items = auth()->user()->mylist()
+                ->where(function($q) use ($keyword) {
+                    $q->where('title', 'like', "%$keyword%")
+                        ->orWhere('description', 'like', "%$keyword%");
+                })
+                ->get();
+        } else {
+            $items = Item::keywordSearch($keyword)->get();
+        }
 
-        return view('index', compact('items'))->with('tab', 'all');
-
+        return view('index', compact('items', 'tab'));
     }
+
 
     /**
      * 商品出品処理

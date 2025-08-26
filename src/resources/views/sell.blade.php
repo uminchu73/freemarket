@@ -9,27 +9,29 @@
     <div class="sell-form">
         <h1>商品の出品</h1>
 
-        <form action="/sell" method="POST" enctype="multipart/form-data">
+        {{-- 出品フォーム --}}
+        <form action="{{ route('items.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
-            <!-- 商品画像 -->
-            <label>商品画像</label>
-            <input type="file" name="image" required>
+            <label for="image">商品画像</label>
+            <input type="file" id="image" name="image" required>
 
             <h2>商品の詳細</h2>
-            <!-- カテゴリー -->
+
+            {{-- カテゴリー選択 --}}
             <label>カテゴリー</label>
             <div class="category-group">
                 @foreach($categories as $category)
-                    <label>
-                        <input type="checkbox" name="category_ids[]" value="{{ $category->id }}">
-                        <span>{{ $category->content }}</span>
+                    <label for="category-{{ $category->id }}">
+                        <input type="checkbox" id="category-{{ $category->id }}" name="category_ids[]" value="{{ $category->id }}"
+                        {{ in_array($category->id, old('category_ids', [])) ? 'checked' : '' }}>
+                    <span>{{ $category->content }}</span>
                     </label>
                 @endforeach
             </div>
 
-            <!-- 商品の状態 -->
-            <label>商品の状態</label>
-            <select name="condition" >
+            {{-- 商品の状態選択 --}}
+            <label for="condition">商品の状態</label>
+            <select id="condition" name="condition">
                 <option value="" disabled {{ old('condition') === null ? 'selected' : '' }}>選択してください</option>
                 <option value="1" {{ old('condition') == '1' ? 'selected' : '' }}>良好</option>
                 <option value="2" {{ old('condition') == '2' ? 'selected' : '' }}>目立った傷や汚れなし</option>
@@ -38,23 +40,21 @@
             </select>
 
             <h2>商品名と説明</h2>
-            <!-- 商品名 -->
-            <label>商品名</label>
-            <input type="text" name="title" required>
 
-            <!-- ブランド名 -->
-            <label>ブランド名</label>
-            <input type="text" name="brand">
+            <label for="title">商品名</label>
+            <input type="text" id="title" name="title" required>
 
-            <!-- 商品説明 -->
-            <label>商品の説明</label>
-            <textarea name="description"></textarea>
+            <label for="brand">ブランド名</label>
+            <input type="text" id="brand" name="brand">
 
-            <!-- 販売価格 -->
-            <label>販売価格</label>
-            <input type="text" name="price" inputmode="numeric" pattern="[0-9]*" required placeholder="¥">
+            <label for="description">商品の説明</label>
+            <textarea id="description" name="description"></textarea>
+
+            <label for="price">販売価格</label>
+            <input type="text" id="price" name="price" inputmode="numeric" pattern="[0-9]*" required placeholder="¥">
 
             <button type="submit">出品する</button>
         </form>
     </div>
+
 @endsection

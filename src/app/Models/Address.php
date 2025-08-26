@@ -17,7 +17,7 @@ class Address extends Model
     ];
 
     /**
-     * リレーション：住所は1人のユーザーに属する
+     * 住所は1人のユーザーに属する
      */
     public function user()
     {
@@ -25,7 +25,7 @@ class Address extends Model
     }
 
     /**
-     * リレーション：住所は複数の購入履歴に紐づくことがある
+     * 住所は複数の購入履歴に紐づくことがある
      */
     public function purchases()
     {

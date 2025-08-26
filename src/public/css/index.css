@@ -23,8 +23,9 @@
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    justify-content: left;
-    padding: 20px 30px;
+    justify-content: flex-start;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .item-card {

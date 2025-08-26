@@ -5,18 +5,20 @@
 @endsection
 
 @section('content')
+
     <div class="item-detail-container">
+        {{-- 商品画像 --}}
         <div class="item-image">
             <img src="{{ $item->img_url? ( \Illuminate\Support\Str::startsWith($item->img_url, ['http://', 'https://'])? $item->img_url: asset('storage/' . $item->img_url) ): 'https://via.placeholder.com/300' }}"
             alt="商品画像">
         </div>
 
+        {{-- 商品情報 --}}
         <div class="item-info">
             <h2 class="title">{{ $item->title }}</h2>
             <p class="brand">{{ $item->brand }}</p>
-
             <p class="price">¥{{ number_format($item->price) }} <span class="tax">(税込)</span></p>
-
+            {{-- いいねとコメント数 --}}
             <div class="response">
                 <div class="favorites-count">
                     @if(auth()->check())
@@ -32,6 +34,7 @@
                             </button>
                         </form>
                     @else
+                        {{-- 未認証はボタンなし --}}
                         <span class="icon">
                             <img src="{{ asset('images/cd32a5631fc8ae66e54e525cb4afafb0a04b1deb.png') }}" alt="⭐️">
                         </span>
@@ -51,17 +54,20 @@
                 </div>
             </div>
 
+            {{-- 購入ボタン・売り切れ表示 --}}
             @if($item->status == 0)
                 <a href="{{ route('purchase.show', $item) }}" class="purchase-button">購入手続きへ</a>
                 @else
                 <button class="purchase-button" disabled>Sold</button>
             @endif
 
-
+            {{-- 商品説明 --}}
             <div class="item-description">
                 <h3>商品説明</h3>
                 <p>{{ $item->description }}</p>
             </div>
+
+            {{-- 商品詳細情報 --}}
             <div class="item-info-detail">
                 <h3>商品の情報</h3>
                 <dl>
@@ -75,10 +81,13 @@
                 <dd>{{ $item->condition_label }}</dd>
                 </dl>
             </div>
+
+            {{-- コメント一覧 --}}
             <div class="item-comments">
                 <h3>コメント ({{ $item->comments->count() }})</h3>
                 @foreach($item->comments as $comment)
                     <div class="comment-wrapper">
+                        {{-- 投稿者情報 --}}
                         <div class="comment-header">
                             <img class="comment-profile-img"
                                 src="{{ $comment->user->profile_img
@@ -87,12 +96,14 @@
                                 alt="{{ $comment->user->name }}">
                             <span class="comment-username">{{ $comment->user->name }}</span>
                         </div>
+                        {{-- コメント本文 --}}
                         <div class="comment-body">
                             {{ $comment->comment }}
                         </div>
                     </div>
                 @endforeach
 
+                {{-- コメント投稿フォーム --}}
                 @auth
                 <form action="{{ route('item.comment', $item->id) }}" method="POST" class="comment-form">
                     @csrf
@@ -107,9 +118,11 @@
                     <button type="submit">コメントを送信する</button>
                 </form>
                 @else
+                    {{--  未認証時メッセージ --}}
                     <p>コメントを投稿するにはログインしてください。</p>
                 @endauth
             </div>
         </div>
     </div>
+
 @endsection
