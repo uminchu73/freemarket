@@ -47,9 +47,7 @@ DB_USERNAME=laravel_user
 
 DB_PASSWORD=laravel_pass
 
-に書き換える。
-
-Stripeを使用するため以下のコードを追加。
+###### Stripe（購入機能用）で追加するコード
 
 STRIPE_KEY=your_stripe_public_key
 
