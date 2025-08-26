@@ -85,9 +85,10 @@ class User extends Authenticatable
 
     /**
      * マイリスト取得
+     * favoriteItems() のエイリアスメソッド
      */
     public function mylist()
     {
-        return $this->favoriteItems()->get();
+        return $this->favoriteItems();
     }
 }

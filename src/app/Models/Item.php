@@ -22,6 +22,11 @@ class Item extends Model
         1 => '売り切れ',
     ];
 
+    public const PAYMENT_METHOD = [
+    1 => 'コンビニ払い',
+    2 => 'カード払い',
+];
+
 
     protected $fillable = [
         'user_id',
@@ -33,6 +38,7 @@ class Item extends Model
         'status',
         'img_url'
     ];
+
 
     /**
      * 商品状態のラベル
@@ -52,7 +58,7 @@ class Item extends Model
 
 
     /**
-     * リレーション：商品は1人のユーザー（出品者）に属する
+     * 商品は1人のユーザー（出品者）に属する
      */
     public function user()
     {
@@ -60,7 +66,7 @@ class Item extends Model
     }
 
     /**
-     * リレーション：商品は複数のカテゴリに属する（多対多）
+     * 商品は複数のカテゴリに属する（多対多）
      */
     public function categories()
     {
@@ -68,7 +74,7 @@ class Item extends Model
     }
 
     /**
-     * リレーション：商品は複数のお気に入り(Favoriteレコード)を持つ
+     * 商品は複数のお気に入り(Favoriteレコード)を持つ
      */
     public function favorites()
     {
@@ -76,7 +82,7 @@ class Item extends Model
     }
 
     /**
-     * リレーション：商品は複数のユーザーにお気に入りされる
+     * 商品は複数のユーザーにお気に入りされる
      */
     public function favoritedByUsers()
     {
@@ -84,7 +90,7 @@ class Item extends Model
     }
 
     /**
-     * リレーション：商品は複数のコメントを持つ
+     * 商品は複数のコメントを持つ
      */
     public function comments()
     {
@@ -92,7 +98,7 @@ class Item extends Model
     }
 
     /**
-     * リレーション：商品は1つの購入履歴を持つことがある（売れた場合）
+     * 商品は1つの購入履歴を持つことがある（売れた場合）
      */
     public function purchase()
     {
@@ -127,17 +133,18 @@ class Item extends Model
         return $item;
     }
 
+
     /**
      * 購入処理
      */
     public function purchaseBy(\App\Models\User $user, int $paymentMethod)
     {
         $purchase = $user->purchases()->create([
-        'item_id' => $this->id,
-        'address_id' => $user->address->id,
-        'payment_method' => $paymentMethod,
-        'purchased_at' => now(),
-    ]);
+            'item_id' => $this->id,
+            'address_id' => $user->address->id,
+            'payment_method' => $paymentMethod,
+            'purchased_at' => now(),
+        ]);
 
         // ステータスを「売り切れ(=1)」に更新
         $this->update(['status' => 1]);
@@ -145,6 +152,7 @@ class Item extends Model
         return $purchase;
 
     }
+
 
     /**
      * 全商品（自分の出品は除外）
@@ -156,6 +164,7 @@ class Item extends Model
             : $query;
     }
 
+
     /**
      * おすすめ一覧
      */
@@ -164,5 +173,35 @@ class Item extends Model
         return self::latest()->excludeOwn($userId)->get();
     }
 
+
+    /**
+     * Checkout セッション
+     */
+    public function createStripeSession(int $paymentMethod, $successUrl, $cancelUrl)
+    {
+        \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+
+        $map = [
+            1 => 'konbini',
+            2 => 'card',
+        ];
+
+        $stripePaymentMethod = $map[$paymentMethod] ?? 'card';
+
+        return \Stripe\Checkout\Session::create([
+            'payment_method_types' => [$stripePaymentMethod],
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'jpy',
+                    'product_data' => ['name' => $this->title],
+                    'unit_amount' => $this->price,
+                ],
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'success_url' => $successUrl,
+            'cancel_url' => $cancelUrl,
+        ]);
+    }
 
 }

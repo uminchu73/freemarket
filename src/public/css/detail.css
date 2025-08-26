@@ -8,6 +8,7 @@
 .item-image img {
     width: 600px;
     height: 600px;
+    margin-top: 40px;
     object-fit: cover;
     background-color: #ccc;
     border-radius: 8px;
@@ -224,3 +225,66 @@
     border-radius: 4px;
 }
 
+
+/* タブレット用 */
+@media screen and (max-width: 850px) {
+    .item-detail-container {
+        flex-direction: row;/* 横並びは維持 */
+        align-items: center;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 10px;
+        overflow-x: auto;
+    }
+
+    .item-image img {
+        width: 300px;
+        height: 300px;
+    }
+
+    .item-info {
+        max-width: 300px;
+    }
+
+    .title {
+        font-size: 32px;
+    }
+
+    .price {
+        font-size: 32px;
+    }
+
+    .tax {
+        font-size: 20px;
+    }
+
+    .comment-form label {
+        font-size: 20px;
+    }
+
+    .comment-body {
+        font-size: 16px;
+        padding: 10px;
+    }
+}
+
+/* PC大画面（1400px以上） */
+@media screen and (min-width: 1400px) {
+    .item-detail-container {
+        justify-content: center;
+        gap: 60px;
+    }
+
+    .item-image img {
+        width: 600px;
+        height: 600px;
+    }
+
+    .title {
+        font-size: 45px;
+    }
+
+    .price {
+        font-size: 45px;
+    }
+}

@@ -60,6 +60,9 @@
                 <form action="{{ route('purchase.store', ['item' => $item->id]) }}" method="POST">
                     @csrf
                     <input type="hidden" name="payment_method" id="paymentMethodInput">
+                    @if($user->address)
+                        <input type="hidden" name="address_id" value="{{ $user->address->id }}">
+                    @endif
                     <button class="purchase-button" type="submit">購入する</button>
                 </form>
                 @else

@@ -59,3 +59,11 @@
     margin-top: 20px;
     text-align: center;
 }
+
+
+/* タブレット用 */
+@media screen and (max-width: 850px) {
+    .form__error {
+        font-size: 14px;
+    }
+}

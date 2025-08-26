@@ -18,7 +18,7 @@ class Purchase extends Model
     ];
 
     /**
-     * リレーション：購入は1人のユーザーに属する（買った人）
+     * 購入は1人のユーザーに属する（買った人）
      */
     public function user()
     {
@@ -26,7 +26,7 @@ class Purchase extends Model
     }
 
     /**
-     * リレーション：購入は1つの商品に属する
+     * 購入は1つの商品に属する
      */
     public function item()
     {
@@ -34,7 +34,7 @@ class Purchase extends Model
     }
 
     /**
-     * リレーション：購入は1つの住所に属する
+     * 購入は1つの住所に属する
      */
     public function address()
     {

@@ -49,6 +49,15 @@ DB_PASSWORD=laravel_pass
 
 に書き換える。
 
+Stripeを使用するため以下のコードを追加。
+
+STRIPE_KEY=pk_test_51S0FT1LUKwv61aXYEy62c0fpBhAfw1LiINVbmkyt3573R05TJViqIvzt4YgyQQOYE3Rr9WD1zOjCcNgHCIUpQYmw00ioJmsqhI
+
+STRIPE_SECRET=REMOVED
+
+
+
+
 #### マイグレーション・シーディングを実行
 
 ```
@@ -87,3 +96,5 @@ Webサーバー：Nginx v1.21.1
 
 
 phpMyAdmin：http://localhost:8080
+
+

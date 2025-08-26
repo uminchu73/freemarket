@@ -8,9 +8,22 @@
 @section('content')
 
     <div class="menu">
-        <a href="{{ url('/?tab=all') }}" class="all {{ $tab === 'all' ? 'active' : '' }}">おすすめ</a>
-        <a href="{{ url('/?tab=mylist') }}" class="mylist {{ $tab === 'mylist' ? 'active' : '' }}">マイリスト</a>
+        <a href="#" class="all {{ $tab === 'all' ? 'active' : '' }}" data-tab="all">おすすめ</a>
+        <a href="#" class="mylist {{ $tab === 'mylist' ? 'active' : '' }}" data-tab="mylist">マイリスト</a>
     </div>
+
+    <script>
+        document.querySelectorAll('.menu a').forEach(link => {
+            link.addEventListener('click', function(e){
+                e.preventDefault();
+                const tab = this.dataset.tab;
+                const form = document.querySelector('.search-form');
+                form.querySelector('input[name="tab"]').value = tab; // hidden タブ値更新
+                form.submit(); // フォーム submit で検索処理に渡す
+            });
+        });
+    </script>
+
 
     <div class="item-list">
         @foreach($items as $item)

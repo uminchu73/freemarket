@@ -16,7 +16,7 @@ class Comment extends Model
     ];
 
     /**
-     * リレーション：コメントは1人のユーザーに属する
+     * コメントは1人のユーザーに属する
      */
     public function user()
     {
@@ -24,7 +24,7 @@ class Comment extends Model
     }
 
     /**
-     * リレーション：コメントは1つの商品に属する
+     * コメントは1つの商品に属する
      */
     public function item()
     {
