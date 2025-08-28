@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();//自動ログイン用
             $table->string('profile_img')->nullable();
+            $table->timestamp('email_verified_at')->nullable();//メール認証機能用
             $table->timestamps();
         });
     }

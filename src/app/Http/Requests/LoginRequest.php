@@ -42,4 +42,5 @@ class LoginRequest extends FormRequest
         return self::$messages;
     }
 
+    
 }
