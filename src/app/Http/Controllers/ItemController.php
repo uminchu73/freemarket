@@ -21,7 +21,10 @@ class ItemController extends Controller
         $tab = $request->query('tab', 'all');
 
         if ($tab === 'mylist' && Auth::check()) {
-            $items = Auth::user()->mylist()->get();
+            //自分の商品は除外してマイリスト取得
+            $items = Auth::user()->mylist()
+            ->where('user_id', '!=', Auth::id())
+            ->get();
         } else {
             $items = Item::recommended(Auth::id());
         }
@@ -59,12 +62,18 @@ class ItemController extends Controller
         $keyword = $request->input('keyword');
 
         if ($tab === 'mylist' && auth()->check()) {
-            $items = auth()->user()->mylist()
-                ->where(function($q) use ($keyword) {
-                    $q->where('title', 'like', "%$keyword%")
-                        ->orWhere('description', 'like', "%$keyword%");
-                })
-                ->get();
+            $items = Item::whereHas('favoritedByUsers', function($q) {
+                $q->where('user_id', auth()->id());
+            })
+            ->where('user_id', '!=', auth()->id())
+            ->where(function($q) use ($keyword) {
+                $q->where('title', 'like', "%$keyword%")
+                    ->orWhere('description', 'like', "%$keyword%");
+            })
+            ->get();
+
+
+
         } else {
             $items = Item::keywordSearch($keyword)->get();
         }
@@ -87,7 +96,8 @@ class ItemController extends Controller
     public function store(ExhibitionRequest $request)
     {
         $data = $request->only(['title', 'description', 'brand', 'condition', 'price']);
-        $data['img_url'] = $request->file('image')->store('images', 'public');
+        $data['img_url'] = $request->file('image')? $request->file('image')->store('images', 'public')
+        : 'dummy.jpg';
 
         Item::createWithCategories($data, $request->category_ids ?? []);
 
@@ -99,12 +109,18 @@ class ItemController extends Controller
      */
     public function addComment(CommentRequest $request, Item $item)
     {
+        if (!auth()->check()) {
+            return redirect() ->back()
+            ->withErrors(['auth' => 'コメントを投稿するにはログインしてください。']);
+        }
+
         $item->comments()->create([
         'user_id' => auth()->id(),
         'comment' => $request->comment,
         ]);
 
-        return back();
+        return redirect()->route('items.show', $item);
+
     }
 
 }

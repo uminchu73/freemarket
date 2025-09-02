@@ -47,12 +47,6 @@ DB_USERNAME=laravel_user
 
 DB_PASSWORD=laravel_pass
 
-###### Stripe（購入機能用）で追加するコード
-
-STRIPE_KEY=your_stripe_public_key
-
-STRIPE_SECRET=your_stripe_secret_key
-
 
 
 
@@ -69,6 +63,44 @@ php artisan migrate --seed
 メール：user@example.com
 
 パスワード：password123
+
+### Stripe 決済テスト方法
+
+このプロジェクトでは、Stripeのテストモードを使って決済処理の動作確認を行います。
+
+#### 1. テストモードの有効化
+1. Stripeダッシュボードにログイン
+2. 左下の「View test data」をONにする
+3. テスト用APIキー（Publishable key、Secret key）を確認する
+
+#### 2. APIキーの設定
+プロジェクトの `.env` にテスト用キーを設定します：
+
+```env
+STRIPE_KEY=your_stripe_public_key
+STRIPE_SECRET=your_stripe_secret_key
+```
+
+#### 3. テスト用カード番号
+
+支払い成功：4242 4242 4242 4242
+
+支払い失敗：4000 0000 0000 9995
+
+有効期限、CVC、ZIPは任意
+
+#### 4. 決済テスト
+1. フロントエンドで商品購入画面を開く
+
+2. 上記のテストカード情報を入力
+
+3. 購入ボタンを押して決済処理を実行
+
+#### 5. 注意点
+
+テストモードでは実際にお金は動きません
+
+本番モードのAPIキーを間違って設定しないよう注意
 
 
 ## 使用技術（実行環境）

@@ -112,8 +112,12 @@ class Item extends Model
     public function scopeKeywordSearch($query, $keyword)
     {
         if (!empty($keyword)) {
-            $query->where('title', 'like', '%' . $keyword . '%');
+            $query->where(function ($q) use ($keyword) {
+                $q->where('title', 'like', "%{$keyword}%")
+                ->orWhere('description', 'like', "%{$keyword}%");
+            });
         }
+        return $query;
     }
 
     /**
