@@ -56,7 +56,7 @@
 
             {{-- 購入ボタン・売り切れ表示 --}}
             @if($item->status == 0)
-                <form action="{{ route('purchase.store', $item) }}" method="POST">
+                <form action="{{ route('purchase.show', $item) }}" method="GET">
                     @csrf
                     <button type="submit" class="purchase-button">購入手続きへ</button>
                 </form>
