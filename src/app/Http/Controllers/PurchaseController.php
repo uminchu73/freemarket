@@ -30,16 +30,6 @@ class PurchaseController extends Controller
             return back()->with('error', 'この商品はすでに購入済みです');
         }
 
-        try {
-            $session = $item->createStripeSession(
-                (int) $request->payment_method,
-                route('purchase.success', $item),
-                route('purchase.cancel', $item)
-            );
-        } catch (\Exception $e) {
-            return back()->with('error', 'Stripe セッション作成エラー: ' . $e->getMessage());
-        }
-
         // テスト環境なら直接購入処理
         if (app()->environment('testing')) {
             $user = Auth::user();

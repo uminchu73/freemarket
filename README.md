@@ -66,6 +66,12 @@ php artisan migrate --seed
 ```
 テーブルを作成し、ダミーデータを投入します。
 
+#### 画像保存のためシンボリックリンクを作成
+
+```
+php artisan storage:link
+```
+
 
 ##### 初期ログイン情報
 

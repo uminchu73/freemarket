@@ -56,8 +56,11 @@
 
             {{-- 購入ボタン・売り切れ表示 --}}
             @if($item->status == 0)
-                <a href="{{ route('purchase.show', $item) }}" class="purchase-button">購入手続きへ</a>
-                @else
+                <form action="{{ route('purchase.store', $item) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="purchase-button">購入手続きへ</button>
+                </form>
+            @else
                 <button class="purchase-button" disabled>Sold</button>
             @endif
 
@@ -105,22 +108,22 @@
 
                 {{-- コメント投稿フォーム --}}
                 @auth
-                <form action="{{ route('item.comment', $item->id) }}" method="POST" class="comment-form">
-                    @csrf
-                    <label for="comment">商品へのコメント</label>
-                    <textarea name="comment" id="comment"  placeholder="コメントを入力してください"></textarea>
-                    {{-- エラー表示 --}}
-                    <div class="error">
-                        @error('comment')
-                            {{ $message }}
-                        @enderror
-                        @error('auth')
-                            {{ $message }}
-                        @enderror
-
-                    </div>
-                    <button type="submit">コメントを送信する</button>
-                </form>
+                    <form action="{{ route('item.comment', $item->id) }}" method="POST" class="comment-form">
+                        @csrf
+                        <label for="comment">商品へのコメント</label>
+                        <textarea name="comment" id="comment"  placeholder="コメントを入力してください"></textarea>
+                        {{-- エラー表示 --}}
+                        <div class="error">
+                            @error('comment')
+                                {{ $message }}
+                            @enderror
+                            @error('auth')
+                                {{ $message }}
+                            @enderror
+                        </div>
+                        <button type="submit">コメントを送信する</button>
+                    </form>
+                @endauth
             </div>
         </div>
     </div>
