@@ -15,7 +15,7 @@ class LoginController extends Controller
 
         if (!Auth::attempt($credentials, $request->boolean('remember'))) {
             return back()->withErrors([
-                'email' => 'ログイン情報が登録されていません。',
+                'email' => 'ログイン情報が登録されていません',
             ]);
         }
 

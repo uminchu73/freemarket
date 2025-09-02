@@ -114,13 +114,13 @@
                         @error('comment')
                             {{ $message }}
                         @enderror
+                        @error('auth')
+                            {{ $message }}
+                        @enderror
+
                     </div>
                     <button type="submit">コメントを送信する</button>
                 </form>
-                @else
-                    {{--  未認証時メッセージ --}}
-                    <p>コメントを投稿するにはログインしてください。</p>
-                @endauth
             </div>
         </div>
     </div>
