@@ -122,7 +122,7 @@ STRIPE_SECRET=your_stripe_secret_key
 
 フレームワーク：Laravel Framework 8.83.29
 
-言語：PHP 7.4.9
+言語：PHP 8.1.33
 
 Webサーバー：Nginx v1.21.1
 
