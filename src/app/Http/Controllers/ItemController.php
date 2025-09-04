@@ -18,23 +18,21 @@ class ItemController extends Controller
      */
     public function index(Request $request)
     {
-        $tab = $request->query('tab', 'all');
+        $tab = $request->input('tab', 'all');
 
-        if ($tab === 'mylist' && Auth::check()) {
-            //自分の商品は除外してマイリスト取得
-            $items = Auth::user()->mylist()
-            ->where('user_id', '!=', Auth::id())
-            ->get();
+        if ($tab === 'mylist') {
+            if (!Auth::check()) {
+                $items = collect();//未ログインなら空
+            } else {
+                $items = Auth::user()
+                    ->favoriteItems()
+                    ->get();
+            }
         } else {
-            $items = Item::recommended(Auth::id());
-        if ($tab === 'mylist' && Auth::check()) {
-            $items = Auth::user()->mylist()->get();
-        } else {
-            $items = Item::recommended(Auth::id());
+            $items = Item::latest()->get(); // おすすめ（例:全商品）
         }
 
         return view('index', compact('items', 'tab'));
-        }
     }
 
 
@@ -66,7 +64,13 @@ class ItemController extends Controller
         $tab = $request->input('tab', 'all');
         $keyword = $request->input('keyword');
 
-        $items = Item::keywordSearch($keyword)->get();
+        if ($tab === 'mylist') {
+            $items = Auth::check() 
+                ? Auth::user()->searchFavoriteItems($keyword) 
+                : collect();
+        } else {
+            $items = Item::keywordSearch($keyword)->latest()->get();
+        }
 
         return view('index', compact('items', 'tab'));
     }

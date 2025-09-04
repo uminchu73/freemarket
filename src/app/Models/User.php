@@ -91,4 +91,17 @@ class User extends Authenticatable
     {
         return $this->favoriteItems();
     }
+
+    /**
+     * マイリスト検索
+     */
+    public function searchFavoriteItems(string $keyword = null)
+    {
+        return $this->favoriteItems()
+            ->when($keyword, fn($q) => $q->where(function($query) use ($keyword) {
+                $query->where('title', 'like', "%{$keyword}%")
+                    ->orWhere('description', 'like', "%{$keyword}%");
+            }))
+            ->get();
+    }
 }

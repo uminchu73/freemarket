@@ -16,17 +16,14 @@ class UserController extends Controller
     /**
      * マイページ表示
      */
-    public function show()
+    public function show(Request $request)
     {
         $user = Auth::user();
-
-        // 出品した商品
+        $tab = $request->tab ?? 'exhibited';
         $exhibitedItems = Item::where('user_id', $user->id)->get();
-
-        // 購入した商品（Purchaseモデルから）
         $purchasedItems = $user->purchases()->with('item')->get();
 
-        return view('mypage.mypage', compact('user', 'exhibitedItems', 'purchasedItems'));
+        return view('mypage.mypage', compact('user', 'exhibitedItems', 'purchasedItems', 'tab'));
     }
 
     /**
