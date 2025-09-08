@@ -29,7 +29,7 @@ cp .env.example .env
 php artisan key:generate
 ```
 
-`.env` を編集し、以下を設定します：
+`.env` を編集し、以下を設定します。
 
 ```
 DB_HOST=mysql
@@ -41,7 +41,7 @@ DB_USERNAME=laravel_user
 DB_PASSWORD=laravel_pass
 ```
 
-Stripeを利用する場合は、さらに以下を追記してください：
+Stripeを利用する場合は、さらに以下を追記してください。
 ```
 
 STRIPE_KEY=your_stripe_public_key
@@ -91,7 +91,7 @@ CREATE DATABASE demo_test;
 3. テスト用APIキー（Publishable key、Secret key）を確認する
 
 ### 2. APIキーの設定
-プロジェクトの `.env` にテスト用キーを設定します：
+プロジェクトの `.env` にテスト用キーを設定します。
 
 
 ### 3. テスト用カード番号
