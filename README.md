@@ -41,7 +41,7 @@ DB_USERNAME=laravel_user
 DB_PASSWORD=laravel_pass
 ```
 
-Stripeを利用する場合は、さらに以下を追記してください。
+Stripeを利用する場合は、さらに以下を`.env`と`.env.testing`に追記してください。
 ```
 
 STRIPE_KEY=your_stripe_public_key
