@@ -46,13 +46,20 @@ class UserProfileTest extends TestCase
             'payment_method' => 2,
         ]);
 
-        //プロフィールページにアクセスし表示確認
-        $response = $this->get(route('profile.show'));
+        //出品タブで出品商品を確認
+        $response = $this->get(route('profile.show', ['tab' => 'exhibited']));
         $response->assertStatus(200);
         $response->assertSee('テスト太郎');
-        $response->assertSee('profile.jpg');
+        $response->assertSee('storage/profile.jpg');
         $response->assertSee('出品商品1');
         $response->assertSee('出品商品2');
+
+        //購入タブで購入商品を確認
+        $response = $this->get(route('profile.show', ['tab' => 'purchased']));
+        $response->assertStatus(200);
+        $response->assertSee('テスト太郎');
+        $response->assertSee('storage/profile.jpg');
         $response->assertSee($purchaseItem->title);
+
     }
 }

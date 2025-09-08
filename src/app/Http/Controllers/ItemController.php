@@ -29,7 +29,14 @@ class ItemController extends Controller
                     ->get();
             }
         } else {
-            $items = Item::latest()->get(); // おすすめ（例:全商品）
+            // おすすめ（全商品）ただし自分の出品は除外
+            $query = Item::latest();
+
+            if (Auth::check()) {
+                $query->where('user_id', '!=', Auth::id());
+            }
+
+            $items = $query->get();
         }
 
         return view('index', compact('items', 'tab'));

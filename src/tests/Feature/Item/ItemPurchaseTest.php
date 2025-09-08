@@ -77,7 +77,8 @@ class ItemPurchaseTest extends TestCase
         ]);
 
         //プロフィール画面で確認
-        $response = $this->get(route('profile.show'));
+        $response = $this->get(route('profile.show', ['tab' => 'purchased']));
+
         $response->assertStatus(200);
         $response->assertSee($item->title);
         $response->assertSee($item->img_url);

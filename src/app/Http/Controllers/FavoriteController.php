@@ -9,17 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class FavoriteController extends Controller
 {
-    public function index()
-    {
-        //ログインユーザーのマイリスト取得
-        $items = auth()->user()->mylist()->with('purchase')->get();
-        //タブ情報も渡す
-        $tab = 'mylist';
-
-        return view('index', compact('items', 'tab'));
-    }
-
-
     public function toggle(Item $item)
     {
         $user = Auth::user();

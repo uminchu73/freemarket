@@ -61,7 +61,7 @@ Route::middleware('auth')->group(function () {
     /**
      * お気に入り
      */
-    Route::get('/my-favorites', [FavoriteController::class, 'index'])->name('mylist');
+
     Route::post('/item/{item}/favorite', [FavoriteController::class, 'toggle'])->name('item.favorite');
 
     /**

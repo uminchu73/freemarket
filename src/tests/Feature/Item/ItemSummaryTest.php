@@ -23,14 +23,10 @@ class ItemSummaryTest extends TestCase
         $user = User::factory()->create();
 
         //商品作成
-        $item = Item::create([
-            'img_url' => 'sample.jpg',
+        $item = Item::factory()->create([
             'user_id' => $user->id,
             'title' => 'テスト商品',
-            'brand' => 'テストブランド',
-            'description' => '商品説明',
-            'price' => 1000,
-            'condition' => 1,
+            'img_url' => 'sample.jpg',
             'status' => 0,
         ]);
 
@@ -53,24 +49,18 @@ class ItemSummaryTest extends TestCase
         $buyer  = User::factory()->create();
 
         //商品作成
-        $item = Item::create([
-            'img_url' => 'sample.jpg',
+        $item = Item::factory()->create([
             'user_id' => $seller->id,
             'title' => 'テスト購入商品',
-            'brand' => 'テストブランド',
-            'description' => '商品説明',
-            'price' => 1000,
-            'condition' => 1,
-            'status' => 1, //１＝購入済み
+            'status' => 1,
         ]);
 
         //購入者の住所を作成
-        $address = Address::create([
-            'user_id'     => $buyer->id,
+        $address = Address::factory()->create([
+            'user_id' => $buyer->id,
             'postal_code' => '123-4567',
-            'address'     => '東京都テスト町1-2-3',
-            'building'    => 'テストビル101',
         ]);
+
 
         //商品購入情報作成
         Purchase::create([
@@ -98,28 +88,16 @@ class ItemSummaryTest extends TestCase
         $user = User::factory()->create();
 
         //自分が出品した商品作成
-        $myItem = Item::create([
-            'img_url' => 'my_item.jpg',
+        $item1 = Item::factory()->create([
             'user_id' => $user->id,
             'title' => '自分の商品',
-            'brand' => '自ブランド',
-            'description' => '自分の商品説明',
-            'price' => 200,
-            'condition' => 1,
-            'status' => 0,
         ]);
 
         //別ユーザーが出品した商品作成
-        $otherUser = User::factory()->create();
-        $otherItem = Item::create([
-            'img_url' => 'other_item.jpg',
-            'user_id' => $otherUser->id,
+        $seller = User::factory()->create();
+        $item2 = Item::factory()->create([
+            'user_id' => $seller->id,
             'title' => '他人の商品',
-            'brand' => '他ブランド',
-            'description' => '他人の商品説明',
-            'price' => 1500,
-            'condition' => 1,
-            'status' => 0,
         ]);
 
         //ログイン状態にする
