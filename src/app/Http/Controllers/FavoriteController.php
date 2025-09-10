@@ -13,11 +13,7 @@ class FavoriteController extends Controller
     {
         $user = Auth::user();
 
-        if ($user->favoriteItems()->where('item_id' , $item->id)->exists()) {
-            $user->favoriteItems()->detach($item);
-        } else {
-            $user->favoriteItems()->attach($item);
-        }
+        $user->favoriteItems()->toggle($item->id);
 
         // Ajax リクエストなら JSON で返す
         if (request()->ajax()) {

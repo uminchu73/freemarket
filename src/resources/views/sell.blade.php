@@ -13,7 +13,8 @@
         <form action="{{ route('items.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <label for="image">商品画像</label>
-            <input type="file" id="image" name="image" required>
+            <input type="file" id="image" name="image" required style="display:none;">
+            <label for="image" class="custom-file-label">画像を選択する</label>
 
             <h2>商品の詳細</h2>
 
@@ -56,5 +57,20 @@
             <button type="submit">出品する</button>
         </form>
     </div>
+
+    <script>
+        const fileInput = document.getElementById('image');
+        const customLabel = document.querySelector('.custom-file-label');
+
+        fileInput.addEventListener('change', function() {
+            if (fileInput.files.length > 0) {
+                //ファイル名を表示
+                customLabel.textContent = fileInput.files[0].name;
+            } else {
+                //ファイル未選択時
+                customLabel.textContent = '画像を選択する';
+            }
+        });
+    </script>
 
 @endsection

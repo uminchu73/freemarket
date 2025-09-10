@@ -16,28 +16,35 @@ class PurchaseController extends Controller
      */
     public function show(Item $item)
     {
+        //ユーザー情報に住所をロード
         $user = Auth::user()->load('address');
 
         return view('purchase', compact('item', 'user'));
     }
 
     /**
-     * Stripe セッション作成して支払いページへ
+     * 購入処理（Stripe 決済 or テスト環境用の即時購入）
+     * - 商品がすでに購入済みかをチェック
+     * - テスト環境なら決済を通さず直接購入処理
+     * - 本番環境では Stripe セッションを作成して決済ページへ遷移
+
      */
     public function store(PurchaseRequest $request, Item $item)
     {
+        //すでに購入済みの商品は買えないようにする
         if ($item->status == 1) {
             return back()->with('error', 'この商品はすでに購入済みです');
         }
 
-        // テスト環境なら直接購入処理
+        //テスト環境では Stripe を経由せず即購入
         if (app()->environment('testing')) {
             $user = Auth::user();
             $item->purchaseBy($user, $request->payment_method ?? 2);
 
-            return redirect()->route('home')->with('success', '購入完了！（テスト環境）');
+            return redirect()->route('home');
         }
 
+        //本番環境では Stripe セッションを作成して決済ページにリダイレクト
         try {
             $session = $item->createStripeSession(
                 (int) $request->payment_method,
@@ -52,7 +59,7 @@ class PurchaseController extends Controller
     }
 
     /**
-     * 支払い成功
+     * 決済成功処理
      */
     public function success(Request $request, Item $item)
     {
@@ -63,15 +70,14 @@ class PurchaseController extends Controller
             $item->purchaseBy($user, $request->payment_method ?? 2);
         }
 
-        return redirect()->route('home')->with('success', '購入完了！');
+        return redirect()->route('home');
     }
 
     /**
-     * 支払いキャンセル
+     * 決済キャンセル処理
      */
     public function cancel(Item $item)
     {
-        return redirect()->route('purchase.show', $item)
-                        ->with('info', '購入をキャンセルしました');
+        return redirect()->route('purchase.show', $item);
     }
 }

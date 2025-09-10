@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FavoriteController;
@@ -18,6 +19,14 @@ use App\Http\Controllers\AddressController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+/**
+ * 未認証でも表示
+ */
+Route::get('/', [ItemController::class,'index'])->name('home');
+Route::get('/search', [ItemController::class, 'search'])->name('items.search');
+Route::get('/item/{item}', [ItemController::class, 'show'])->name('items.show');
+
 /**
  * ログイン
  */
@@ -28,19 +37,12 @@ Route::get('/login', function() {
 Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
 
 /**
- * 会員登録処理を自作コントローラに切り替え
+ * 会員登録
  */
 Route::post('/register', [RegisteredUserController::class, 'store']);
 
 /**
- * 未認証でも表示
- */
-Route::get('/', [ItemController::class,'index'])->name('home');
-Route::get('/search', [ItemController::class, 'search'])->name('items.search');
-Route::get('/item/{item}', [ItemController::class, 'show'])->name('items.show');
-
-/**
- * 認証必要
+ * 認証が必要なルート
  */
 Route::middleware('auth')->group(function () {
 

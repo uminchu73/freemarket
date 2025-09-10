@@ -34,21 +34,28 @@
 }
 
 .item-card {
-    width: 200px;
+    flex: 1 1 200px;
+    width: 180px;
     overflow: hidden;
     text-align: left;
 }
 
-.item-card a {
-    text-decoration: none;
-    color: inherit; /* 親要素の色を継承 */
+.item-image {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
 }
 
 .item-image img {
     width: 100%;
-    height: 180px;
+    height: 100%;
     object-fit: cover;
     display: block;
+}
+
+.item-card a {
+    text-decoration: none;
+    color: inherit;
 }
 
 .item-title {

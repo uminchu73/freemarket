@@ -27,8 +27,10 @@ class AddressController extends Controller
     public function update(AddressRequest $request, Item $item)
     {
         $user = Auth::user();
-        $data = $request->validated(); // バリデーション済みデータを取得
+        //バリデーション済みデータを取得
+        $data = $request->validated();
 
+        //住所を更新、なければ新規作成
         $user->address()->updateOrCreate(['user_id' => $user->id], $data);
 
         return redirect()->route('purchase.show', ['item' => $item->id]);

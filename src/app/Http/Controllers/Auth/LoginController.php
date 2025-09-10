@@ -21,6 +21,7 @@ class LoginController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended('/'); // ログイン成功後のリダイレクト先
+        //ログイン成功後のリダイレクト先
+        return redirect()->intended('/');
     }
 }

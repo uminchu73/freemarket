@@ -103,7 +103,6 @@ class ItemMylistTest extends TestCase
         //item2をいいねする
         $user->favoriteItems()->attach($item2);
 
-
         //マイリスト表示
         $response = $this->get(route('home', ['tab' => 'mylist']));
         $response->assertStatus(200);

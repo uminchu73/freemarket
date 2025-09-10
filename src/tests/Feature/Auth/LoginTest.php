@@ -16,7 +16,7 @@ class LoginTest extends TestCase
      */
     public function test_email_required()
     {
-        //会員登録ページを開けるか（ステータス200）
+        //会員登録ページを開く（ステータス200）
         $this->get('/login')->assertStatus(200);
 
         //入力データを送信（パスワードのみ）
@@ -36,7 +36,7 @@ class LoginTest extends TestCase
      */
     public function test_password_required()
     {
-        //会員登録ページを開けるか（ステータス200）
+        //会員登録ページを開く（ステータス200）
         $this->get('/login')->assertStatus(200);
 
         //入力データを送信（メールアドレスのみ）
@@ -56,7 +56,7 @@ class LoginTest extends TestCase
      */
     public function test_invalid_user()
     {
-        //会員登録ページを開けるか（ステータス200）
+        //会員登録ページを開く（ステータス200）
         $this->get('/login')->assertStatus(200);
 
         //入力データを送信（誤った情報）
@@ -71,9 +71,12 @@ class LoginTest extends TestCase
         ]);
     }
 
+    /**
+     * 全ての項目が入力されている場合、会員情報が登録され、ログイン画面に遷移される
+     */
     public function test_success()
     {
-        //会員登録ページを開けるか（ステータス200）
+        //会員登録ページを開く（ステータス200）
         $this->get('/login')->assertStatus(200);
 
         //ユーザー作成

@@ -82,7 +82,7 @@
 .form__button-submit {
     width: 100%;
     padding: 12px 0;
-    background-color: #ff5e5e;
+    background-color: #FF5555;
     color: #fff;
     border: none;
     border-radius: 6px;
@@ -92,11 +92,11 @@
 }
 
 .form__button-submit:hover {
-    background-color: #ff3b3b;
+    background-color: #FF5555;
 }
 
 .error {
     font-size: 13px;
-    color: red;
+    color: #FF5555;
     margin-top: 5px;
 }

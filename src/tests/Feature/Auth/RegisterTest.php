@@ -15,7 +15,7 @@ class RegisterTest extends TestCase
      */
     public function test_name_required()
     {
-        //会員登録ページを開けるか（ステータス200）
+        //会員登録ページを開く（ステータス200）
         $this->get('/register')->assertStatus(200);
 
         //入力データを送信（名前以外）
@@ -37,7 +37,7 @@ class RegisterTest extends TestCase
      */
     public function test_email_required()
     {
-        //会員登録ページを開けるか（ステータス200）
+        //会員登録ページを開く（ステータス200）
         $this->get('/register')->assertStatus(200);
 
         //入力データを送信（メールアドレス以外）
@@ -59,7 +59,7 @@ class RegisterTest extends TestCase
      */
     public function test_password_required()
     {
-        //会員登録ページを開けるか（ステータス200）
+        //会員登録ページを開く（ステータス200）
         $this->get('/register')->assertStatus(200);
 
         //入力データを送信（パスワード以外）
@@ -81,7 +81,7 @@ class RegisterTest extends TestCase
      */
     public function test_password_too_short()
     {
-        //会員登録ページを開けるか（ステータス200）
+        //会員登録ページを開く（ステータス200）
         $this->get('/register')->assertStatus(200);
 
         //入力データを送信（パスワード7文字以下）
@@ -103,7 +103,7 @@ class RegisterTest extends TestCase
      */
     public function test_password_mismatch()
     {
-        //会員登録ページを開けるか（ステータス200）
+        //会員登録ページを開く（ステータス200）
         $this->get('/register')->assertStatus(200);
 
         //入力データを送信（確認パスワード不一致）
@@ -125,7 +125,7 @@ class RegisterTest extends TestCase
      */
     public function test_success()
     {
-        //会員登録ページを開けるか（ステータス200）
+        //会員登録ページを開く（ステータス200）
         $this->get('/register')->assertStatus(200);
 
         //入力データを送信

@@ -19,7 +19,7 @@ class ItemCommentTest extends TestCase
     {
         $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
 
-        //ユーザーを作成しログイン
+        //ユーザー作成・ログイン
         $user = User::factory()->create();
         $this->actingAs($user);
 
@@ -101,7 +101,7 @@ class ItemCommentTest extends TestCase
     {
         $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
 
-        //ユーザーを作成しログイン
+        //ユーザー作成・ログイン
         $user = User::factory()->create();
         $this->actingAs($user);
 
